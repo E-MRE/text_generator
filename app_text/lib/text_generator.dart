@@ -1,5 +1,3 @@
-library app_text;
-
 /// A Calculator.
 class Calculator {
   /// Returns [value] plus 1.
