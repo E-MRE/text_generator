@@ -1,10 +1,10 @@
 part of '../../text_generator.dart';
 
 mixin _GeneratedTextExtension {
-  Code get getExtension => const Code('''
+  Code getExtension(String textName) => Code('''
 
-extension AppTextExtension on AppText {
-  AppText copyWith({
+extension ${textName}Extension on $textName {
+  $textName copyWith({
     Color? color,
     bool? inherit,
     int? maxLines,
@@ -25,7 +25,7 @@ extension AppTextExtension on AppText {
     TextDecoration? decoration,
     TextDecorationStyle? decorationStyle,
   }) {
-    return AppText(
+    return $textName(
       this.data ?? '',
       key: this.key,
       locale: this.locale,

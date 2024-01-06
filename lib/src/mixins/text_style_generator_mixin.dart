@@ -3,32 +3,32 @@
 part of '../../text_generator.dart';
 
 mixin _TextStyleGeneratorMixin {
-  Code generateAppTextStyleClass(List<TextGeneratorOption> appTextList) {
+  Code generateTextStyleClass(String textName, List<TextGeneratorOption> textList) {
     var allStyles = '';
-    for (final appText in appTextList) {
-      allStyles += generateAppTextStyleByModel(appText);
+    for (final text in textList) {
+      allStyles += generateTextStyleByModel(textName, text);
     }
 
     return Code('''
 
-${_getAllStyleShortDescriptions(appTextList)}
+${_getAllStyleShortDescriptions(textList)}
 ${_getInitialStyleExplanation()}
 @immutable
-${_openClass()}
+${_openClass(textName)}
 
 $allStyles
 
-${_getAppTextStyleWithAllParameters()}
+${_getTextStyleWithAllParameters(textName)}
 
-${_getConvertParentConstructor()}
+${_getConvertParentConstructor(textName)}
 ${_closeClass()}
 ''');
   }
 
-  String _openClass() {
+  String _openClass(String textName) {
     return '''
-    class AppTextStyle extends TextStyle{
-      const AppTextStyle.empty() : super();
+    class ${textName}Style extends TextStyle{
+      const ${textName}Style.empty() : super();
 
 ''';
   }
@@ -40,16 +40,16 @@ ${_closeClass()}
 ''';
   }
 
-  String generateAppTextStyleByModel(TextGeneratorOption appText) {
+  String generateTextStyleByModel(String textName, TextGeneratorOption option) {
     final buffer = StringBuffer();
 
-    final firstPart = _getFirstPartOfTextStyleExplanation(appText);
+    final firstPart = _getFirstPartOfTextStyleExplanation(option);
     buffer.writeln(firstPart);
-    _addExplanationAboutText(appText, buffer);
+    _addExplanationAboutText(option, buffer);
 
     return '''
   $buffer
-  AppTextStyle.${appText.name}Style({
+  ${textName}Style.${option.name}Style({
     Color? color,
     FontStyle? fontStyle,
     FontWeight? fontWeight,
@@ -58,7 +58,7 @@ ${_closeClass()}
     String fontFamily = 'Poppins',
     required TextTheme textTheme,
   }) : this.convertParent(
-    ${_getInsideOfStyle(appText)}
+    ${_getInsideOfStyle(option)}
   );
 ''';
   }
@@ -73,15 +73,15 @@ ${_closeClass()}
     ///''';
   }
 
-  String _getAllStyleShortDescriptions(List<TextGeneratorOption> appTextList) {
+  String _getAllStyleShortDescriptions(List<TextGeneratorOption> textList) {
     final buffer = StringBuffer();
 
-    for (final appText in appTextList) {
-      final weight = (appText.fontWeight ?? FontsWeight.w400).value;
-      final size = appText.fontSize == null ? '' : 'Size: `${appText.fontSize}`';
-      final height = appText.fontHeight == null ? '' : 'Height: `${appText.fontHeight}`';
+    for (final text in textList) {
+      final weight = (text.fontWeight ?? FontsWeight.w400).value;
+      final size = text.fontSize == null ? '' : 'Size: `${text.fontSize}`';
+      final height = text.fontHeight == null ? '' : 'Height: `${text.fontHeight}`';
 
-      var line = '/// * ${appText.name}Style $weight ';
+      var line = '/// * ${text.name}Style $weight ';
       if (size.isNotEmpty) {
         line += '--- $size';
       }
@@ -91,7 +91,7 @@ ${_closeClass()}
       }
 
       line += ' || TextTheme: ';
-      line += '`${appText.textStyle == TextThemeStyle.empty ? 'None' : appText.textStyle.value}`';
+      line += '`${text.textStyle == TextThemeStyle.empty ? 'None' : text.textStyle.value}`';
 
       buffer.writeln(line);
     }
@@ -100,15 +100,15 @@ ${_closeClass()}
     return buffer.toString();
   }
 
-  String _getInsideOfStyle(TextGeneratorOption appText) {
+  String _getInsideOfStyle(TextGeneratorOption option) {
     final buffer = StringBuffer('style: ');
-    final style = appText.textStyle == TextThemeStyle.empty
-        ? appText.textStyle.value
-        : 'textTheme.${appText.textStyle.value}?.copyWith';
+    final style = option.textStyle == TextThemeStyle.empty
+        ? option.textStyle.value
+        : 'textTheme.${option.textStyle.value}?.copyWith';
 
-    final overflow = appText.overflow == null ? 'overflow' : 'overflow ?? ${appText.overflow?.value}';
+    final overflow = option.overflow == null ? 'overflow' : 'overflow ?? ${option.overflow?.value}';
     final fontWeight =
-        appText.fontWeight == null ? 'fontWeight' : 'fontWeight ?? ${(appText.fontWeight ?? FontsWeight.w400).value}';
+        option.fontWeight == null ? 'fontWeight' : 'fontWeight ?? ${(option.fontWeight ?? FontsWeight.w400).value}';
 
     buffer.write(style);
     buffer.writeln('(');
@@ -119,15 +119,15 @@ ${_closeClass()}
     buffer.writeln('decoration:decoration,');
     buffer.writeln('fontWeight: $fontWeight,');
 
-    final size = appText.fontSize;
-    final height = appText.fontHeight;
+    final size = option.fontSize;
+    final height = option.fontHeight;
 
-    if (appText.textStyle == TextThemeStyle.empty) {
+    if (option.textStyle == TextThemeStyle.empty) {
       buffer.writeln('fontSize: $size ?? 0,');
       buffer.writeln('height: $height,');
     } else {
-      buffer.writeln('fontSize: ${size ?? 'textTheme.${appText.textStyle.value}?.fontSize'},');
-      buffer.writeln('height: ${height ?? 'textTheme.${appText.textStyle.value}?.height'},');
+      buffer.writeln('fontSize: ${size ?? 'textTheme.${option.textStyle.value}?.fontSize'},');
+      buffer.writeln('height: ${height ?? 'textTheme.${option.textStyle.value}?.height'},');
     }
 
     buffer.writeln(')');
@@ -135,9 +135,9 @@ ${_closeClass()}
     return buffer.toString();
   }
 
-  String _getAppTextStyleWithAllParameters() {
+  String _getTextStyleWithAllParameters(String textName) {
     return '''
-    const AppTextStyle({
+    const ${textName}Style({
     super.inherit = true,
     super.color,
     super.backgroundColor,
@@ -168,14 +168,14 @@ ${_closeClass()}
 ''';
   }
 
-  String _getConvertParentConstructor() {
+  String _getConvertParentConstructor(String textName) {
     return '''
     /// Creates a text style.
     ///
     /// The `package` argument must be non-null if the font family is defined in a
     /// package. It is combined with the `fontFamily` argument to set the
     /// [fontFamily] property.
-    AppTextStyle.convertParent({required TextStyle? style, String? package})
+    ${textName}Style.convertParent({required TextStyle? style, String? package})
       : super(
           inherit: style?.inherit ?? true,
           color: style?.color,
@@ -207,44 +207,44 @@ ${_closeClass()}
 ''';
   }
 
-  String _getTextStyleShortDescription(TextGeneratorOption appText) {
-    final style = appText.textStyle == TextThemeStyle.empty ? 'None' : appText.textStyle.value;
-    final text = '  /// ${appText.name}Style from `[$style]`';
-    if (appText.fontHeight == null && appText.fontSize == null) return text;
+  String _getTextStyleShortDescription(TextGeneratorOption option) {
+    final style = option.textStyle == TextThemeStyle.empty ? 'None' : option.textStyle.value;
+    final text = '  /// ${option.name}Style from `[$style]`';
+    if (option.fontHeight == null && option.fontSize == null) return text;
 
-    if (appText.fontHeight != null && appText.fontSize != null) {
-      return '$text (${appText.fontSize} || ${appText.fontHeight})';
+    if (option.fontHeight != null && option.fontSize != null) {
+      return '$text (${option.fontSize} || ${option.fontHeight})';
     }
 
-    if (appText.fontSize != null) {
-      return '$text Size: ${appText.fontSize}';
-    } else if (appText.fontHeight != null) {
-      return '$text Height: ${appText.fontHeight}';
+    if (option.fontSize != null) {
+      return '$text Size: ${option.fontSize}';
+    } else if (option.fontHeight != null) {
+      return '$text Height: ${option.fontHeight}';
     } else {
       return text;
     }
   }
 
-  String _getFirstPartOfTextStyleExplanation(TextGeneratorOption appText) {
+  String _getFirstPartOfTextStyleExplanation(TextGeneratorOption option) {
     return '''
-${_getTextStyleShortDescription(appText)}
+${_getTextStyleShortDescription(option)}
   ///
   /// * FontFamily: Poppins
-  /// * FontWeight: ${(appText.fontWeight ?? FontsWeight.w400).value}''';
+  /// * FontWeight: ${(option.fontWeight ?? FontsWeight.w400).value}''';
   }
 
-  void _addExplanationAboutText(TextGeneratorOption appText, StringBuffer buffer) {
-    final fontSize = appText.fontSize;
-    final fontHeight = appText.fontHeight;
+  void _addExplanationAboutText(TextGeneratorOption option, StringBuffer buffer) {
+    final fontSize = option.fontSize;
+    final fontHeight = option.fontHeight;
 
     if (fontSize == null) {
-      buffer.writeln('  /// * FontSize: `${appText.textStyle.value}?.fontSize`');
+      buffer.writeln('  /// * FontSize: `${option.textStyle.value}?.fontSize`');
     } else {
       buffer.writeln('  /// * FontSize: `$fontSize`');
     }
 
     if (fontHeight == null) {
-      buffer.writeln('  /// * LineHeight: `${appText.textStyle.value}?.height`');
+      buffer.writeln('  /// * LineHeight: `${option.textStyle.value}?.height`');
     } else {
       buffer.writeln('  /// * LineHeight: `$fontHeight`');
     }

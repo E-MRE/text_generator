@@ -15,15 +15,18 @@ part 'src/mixins/text_style_generator_mixin.dart';
 final class TextGenerator extends ClassAnnotation
     with _GeneratedTextExtension, _TextGeneratorMixin, _TextStyleGeneratorMixin {
   ///This class generates custom texts using options.
-  const TextGenerator(this.texts);
+  const TextGenerator({required this.texts, this.baseName = 'AppText'});
+
+  ///All texts referenced from this. default value is `AppText`
+  final String baseName;
 
   ///Generated text options
   final List<TextGeneratorOption> texts;
 
   @override
   void apply(Class target, LibraryBuilder output) {
-    output.body.add(generateAppTextClass(texts));
-    output.body.add(getExtension);
-    output.body.add(generateAppTextStyleClass(texts));
+    output.body.add(generateTextClass(baseName, texts));
+    output.body.add(getExtension(baseName));
+    output.body.add(generateTextStyleClass(baseName, texts));
   }
 }
