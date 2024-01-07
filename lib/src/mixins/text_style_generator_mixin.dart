@@ -58,7 +58,7 @@ ${_closeClass()}
     String fontFamily = 'Poppins',
     required TextTheme textTheme,
   }) : this.convertParent(
-    ${_getInsideOfStyle(option)}
+    ${_getInsideOfStyle(textName, option)}
   );
 ''';
   }
@@ -100,11 +100,10 @@ ${_closeClass()}
     return buffer.toString();
   }
 
-  String _getInsideOfStyle(TextGeneratorOption option) {
+  String _getInsideOfStyle(String textName, TextGeneratorOption option) {
     final buffer = StringBuffer('style: ');
-    final style = option.textStyle == TextThemeStyle.empty
-        ? option.textStyle.value
-        : 'textTheme.${option.textStyle.value}?.copyWith';
+    final style =
+        option.textStyle == TextThemeStyle.empty ? '${textName}Style' : 'textTheme.${option.textStyle.value}?.copyWith';
 
     final overflow = option.overflow == null ? 'overflow' : 'overflow ?? ${option.overflow?.value}';
     final fontWeight =
@@ -123,8 +122,13 @@ ${_closeClass()}
     final height = option.fontHeight;
 
     if (option.textStyle == TextThemeStyle.empty) {
-      buffer.writeln('fontSize: $size ?? 0,');
-      buffer.writeln('height: $height,');
+      if (size != null) {
+        buffer.writeln('fontSize: $size,');
+      }
+
+      if (height != null) {
+        buffer.writeln('height: $height,');
+      }
     } else {
       buffer.writeln('fontSize: ${size ?? 'textTheme.${option.textStyle.value}?.fontSize'},');
       buffer.writeln('height: ${height ?? 'textTheme.${option.textStyle.value}?.height'},');
@@ -175,7 +179,7 @@ ${_closeClass()}
     /// The `package` argument must be non-null if the font family is defined in a
     /// package. It is combined with the `fontFamily` argument to set the
     /// [fontFamily] property.
-    ${textName}Style.convertParent({required TextStyle? style, String? package})
+    ${textName}Style.convertParent({required TextStyle? style, super.package})
       : super(
           inherit: style?.inherit ?? true,
           color: style?.color,
@@ -201,7 +205,6 @@ ${_closeClass()}
           debugLabel: style?.debugLabel,
           fontFamily: style?.fontFamily,
           fontFamilyFallback: style?.fontFamilyFallback,
-          package: package,
           overflow: style?.overflow,
         );
 ''';

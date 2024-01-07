@@ -167,7 +167,7 @@ ${_closeClass()}
     super.locale,
     super.softWrap,
     super.overflow,
-    super.textScaleFactor,
+    super.textScaler,
     super.maxLines,
     super.semanticsLabel,
     super.textWidthBasis,

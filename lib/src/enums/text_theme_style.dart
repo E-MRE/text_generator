@@ -104,7 +104,7 @@ enum TextThemeStyle {
   labelSmall('labelSmall'),
 
   ///There is no text style.
-  empty('AppTextStyle');
+  empty('DefaultTextStyle');
 
   const TextThemeStyle(this.value);
 
