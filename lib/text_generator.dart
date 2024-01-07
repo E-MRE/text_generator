@@ -1,6 +1,7 @@
 // ignore_for_file: lines_longer_than_80_chars
 
 import 'package:super_annotations/super_annotations.dart';
+export 'package:super_annotations/super_annotations.dart';
 
 part 'src/enums/fonts_weight.dart';
 part 'src/enums/text_alignment.dart';
@@ -12,7 +13,7 @@ part 'src/mixins/text_generator_mixin.dart';
 part 'src/mixins/text_style_generator_mixin.dart';
 
 ///This class generates custom texts using options.
-final class TextGenerator extends ClassAnnotation
+class TextGenerator extends ClassAnnotation
     with _GeneratedTextExtension, _TextGeneratorMixin, _TextStyleGeneratorMixin {
   ///This class generates custom texts using options.
   const TextGenerator({required this.texts, this.baseName = 'AppText'});
