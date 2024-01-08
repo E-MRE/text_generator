@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
               data: 'You have pushed the button this many times:',
               context: context,
             ),
-            MyText.custom(data: '$_counter', context: context),
+            MyText.normal(data: '$_counter', context: context),
           ],
         ),
       ),

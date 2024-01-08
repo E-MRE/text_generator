@@ -37,8 +37,8 @@ class MyText extends Text {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: `FontWeight.w400`
-  /// * FontSize: `titleMedium?.fontSize`
-  /// * LineHeight: `titleMedium?.height`
+  /// * FontSize: null || `titleMedium?.fontSize`
+  /// * LineHeight: null || `titleMedium?.height`
   ///
   MyText.title({
     Key? key,
@@ -70,8 +70,8 @@ class MyText extends Text {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: `FontWeight.w600`
-  /// * FontSize: `bodyMedium?.fontSize`
-  /// * LineHeight: `bodyMedium?.height`
+  /// * FontSize: null || `bodyMedium?.fontSize`
+  /// * LineHeight: null || `bodyMedium?.height`
   ///
   MyText.semiBoldSubTitle({
     Key? key,
@@ -103,8 +103,8 @@ class MyText extends Text {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: `FontWeight.w400`
-  /// * FontSize: `DefaultTextStyle?.fontSize`
-  /// * LineHeight: `DefaultTextStyle?.height`
+  /// * FontSize: null || `MyTextStyle?.fontSize`
+  /// * LineHeight: null || `MyTextStyle?.height`
   ///
   MyText.custom({
     Key? key,
@@ -136,7 +136,7 @@ class MyText extends Text {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: `FontWeight.normal`
-  /// * FontSize: `14.0`
+  /// * FontSize: `(14.0)`
   /// * LineHeight: `1.2`
   ///
   MyText.normal({
@@ -273,8 +273,8 @@ class MyTextStyle extends TextStyle {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: FontWeight.w400
-  /// * FontSize: `titleMedium?.fontSize`
-  /// * LineHeight: `titleMedium?.height`
+  /// * FontSize: null || `titleMedium?.fontSize`
+  /// * LineHeight: null || `titleMedium?.height`
   ///
   MyTextStyle.titleStyle({
     Color? color,
@@ -300,8 +300,8 @@ class MyTextStyle extends TextStyle {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: FontWeight.w600
-  /// * FontSize: `bodyMedium?.fontSize`
-  /// * LineHeight: `bodyMedium?.height`
+  /// * FontSize: null || `bodyMedium?.fontSize`
+  /// * LineHeight: null || `bodyMedium?.height`
   ///
   MyTextStyle.semiBoldSubTitleStyle({
     Color? color,
@@ -327,8 +327,8 @@ class MyTextStyle extends TextStyle {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: FontWeight.w400
-  /// * FontSize: `DefaultTextStyle?.fontSize`
-  /// * LineHeight: `DefaultTextStyle?.height`
+  /// * FontSize: null || `MyTextStyle?.fontSize`
+  /// * LineHeight: null || `MyTextStyle?.height`
   ///
   MyTextStyle.customStyle({
     Color? color,
@@ -352,7 +352,7 @@ class MyTextStyle extends TextStyle {
   ///
   /// * FontFamily: Poppins
   /// * FontWeight: FontWeight.normal
-  /// * FontSize: `14.0`
+  /// * FontSize: `(14.0)`
   /// * LineHeight: `1.2`
   ///
   MyTextStyle.normalStyle({

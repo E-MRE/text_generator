@@ -45,7 +45,7 @@ ${_closeClass()}
 
     final firstPart = _getFirstPartOfTextStyleExplanation(option);
     buffer.writeln(firstPart);
-    _addExplanationAboutText(option, buffer);
+    _addExplanationAboutText(textName, option, buffer);
 
     return '''
   $buffer
@@ -236,18 +236,20 @@ ${_getTextStyleShortDescription(option)}
   /// * FontWeight: ${(option.fontWeight ?? FontsWeight.w400).value}''';
   }
 
-  void _addExplanationAboutText(TextGeneratorOption option, StringBuffer buffer) {
+  void _addExplanationAboutText(String textName, TextGeneratorOption option, StringBuffer buffer) {
     final fontSize = option.fontSize;
     final fontHeight = option.fontHeight;
 
+    final textStyle = option.textStyle == TextThemeStyle.empty ? '${textName}Style' : option.textStyle.value;
+
     if (fontSize == null) {
-      buffer.writeln('  /// * FontSize: `${option.textStyle.value}?.fontSize`');
+      buffer.writeln('  /// * FontSize: `$textStyle?.fontSize`');
     } else {
-      buffer.writeln('  /// * FontSize: `$fontSize`');
+      buffer.writeln('  /// * FontSize: `($fontSize)`');
     }
 
     if (fontHeight == null) {
-      buffer.writeln('  /// * LineHeight: `${option.textStyle.value}?.height`');
+      buffer.writeln('  /// * LineHeight: `$textStyle?.height`');
     } else {
       buffer.writeln('  /// * LineHeight: `$fontHeight`');
     }
