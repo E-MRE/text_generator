@@ -1,22 +1,22 @@
 name: text_generator
 description: "Custom Text Generator"
-version: 0.0.1
+version: 1.0.1
 homepage:
 
 environment:
-  sdk: '>=3.3.0-149.0.dev <4.0.0'
+  sdk: '>=3.4.1 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  super_annotations: ^0.8.0
+  super_annotations: ^0.10.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  very_good_analysis: ^5.1.0
-  build_runner: ^2.4.7
+  build_runner: ^2.15.0
+  very_good_analysis: ^10.2.0
 
 flutter:

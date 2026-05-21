@@ -1,3 +1,7 @@
-## 0.0.1
+## 1.0.1
 
-* TODO: Describe initial release.
+* Version upgraded for Flutter v3.41
+
+## 1.0.0
+
+* Initial package
